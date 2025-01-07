@@ -4,6 +4,7 @@ const Timer = () => {
   const [time, setTime] = React.useState(0);
   const [isRunning, setIsRunning] = React.useState(false);
   const [moods, setMoods] = React.useState([]);
+  const [message, setMessage] = React.useState("");
 
   const prompts = [
     "Take 5 deep breaths.",
@@ -13,7 +14,8 @@ const Timer = () => {
   ];
 
   const handleMoodChange = (mood) => {
-    setMoods([...moods, { mood, time: new Date().toLocaleDateString() }]);
+    setMoods([...moods, { mood, date: new Date().toLocaleDateString() }]);
+    setMessage("Mood logged! Thank you for sharing.");
   };
 
   const getRandomPrompt = () => {
@@ -21,8 +23,19 @@ const Timer = () => {
   };
 
   React.useEffect(() => {
+    const messageTimeout = setTimeout(() => {
+      setMessage("");
+    }, 10000);
+    return () => clearTimeout(messageTimeout);
+  }, [message]);
+
+  React.useEffect(() => {
+    localStorage.setItem("moods", JSON.stringify(moods));
+  }, [moods]);
+
+  React.useEffect(() => {
     if (time === 0 && isRunning) {
-      alert(getRandomPrompt());
+      setMessage(getRandomPrompt());
     }
   }, [time, isRunning]);
 
@@ -49,15 +62,20 @@ const Timer = () => {
   };
   return (
     <div className="text-center p-4">
+      {message && (
+        <div
+          className="absolute border border-black border-2  top-10 left-10 right-10  p-4 mb-4 text-sm text-white-500 rounded-lg bg-green-50 dark:bg-green-800 dark:text-white"
+          role="alert">
+          <span className="font-medium">{message}</span>
+        </div>
+      )}
       <h1 className="text-3xl font-bold mb-4">Mindful Timer</h1>
       <p className="text-6xl mb-6">{formatTIme(time)}</p>
-
       <button
         className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
         onClick={() => setIsRunning(!isRunning)}>
         {isRunning ? "Pause" : "Start"}
       </button>
-
       <button
         className="bg-gray-500 text-white px-4 py-2 rounded"
         onClick={() => {
@@ -66,22 +84,21 @@ const Timer = () => {
         }}>
         Reset
       </button>
-
       <div className="mt-6">
         <p className="text-xl">How did you feel?</p>
         <div className="flex justify-center space-x-4 mt-4">
           <button
-            className="bg-green-500 text-white px-4 py-2 rounded"
+            className="bg-green-500 text-white px-4 py-2 rounded text-3xl"
             onClick={() => handleMoodChange("😊")}>
             😊
           </button>
           <button
-            className="bg-yellow-500 text-white px-4 py-2 rounded"
+            className="bg-yellow-500 text-white px-4 py-2 rounded text-3xl"
             onClick={() => handleMoodChange("😐")}>
             😐
           </button>
           <button
-            className="bg-red-500 text-white px-4 py-2 rounded"
+            className="bg-red-500 text-white px-4 py-2 rounded text-3xl"
             onClick={() => handleMoodChange("😞")}>
             😞
           </button>
