@@ -48,7 +48,7 @@
 
 ## 🚀 Live Demo <a id="live-demo"></a>
 
-Live demo for the website [Coming Soon]().
+Live demo for the website [Mindful Timer](https://mindful-timer.onrender.com/).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
