@@ -1,11 +1,14 @@
+import { Route, Routes } from "react-router";
 import "./App.css";
 import Timer from "./components/Timer";
+import Home from "./Pages/Home";
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center items-center">
-      <Timer />
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/timer" element={<Timer />} />
+    </Routes>
   );
 }
 
