@@ -1,8 +1,14 @@
-import React from "react";
 import { useNavigate } from "react-router";
 
 const Home = () => {
   const navigate = useNavigate();
+
+  const handleNavigate = () => {
+    setTimeout(() => {
+      navigate("/timer");
+    }, 1000);
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 overflow-hidden">
       <div className="header absolute top-5 left-10">
@@ -26,7 +32,7 @@ const Home = () => {
 
             <button
               onClick={() => {
-                navigate("/timer");
+                handleNavigate();
               }}
               className="mt-3 bg-yellow-600 text-white p-3 hover:bg-black transition duration-500 ease-in-out">
               Let's Get Started
